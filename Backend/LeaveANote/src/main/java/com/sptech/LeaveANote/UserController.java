@@ -49,36 +49,6 @@ public class UserController {
         return ResponseEntity.ok().body(res);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserModel> getUserById(@PathVariable Integer id) {
-
-        String sql = "SELECT * FROM `user` WHERE id = ?";
-
-        List<User> users = jdbcTemplate.query(
-                sql,
-                new BeanPropertyRowMapper<>(User.class),
-                id
-        );
-
-        if (users.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<UserModel> res = new ArrayList<>();
-
-        for (User user : users) {
-
-            UserModel um = new UserModel();
-            um.setName(user.getName());
-            um.setEmail(user.getEmail());
-            um.setId(user.getId());
-            res.add(um);
-
-        }
-
-        return ResponseEntity.ok().body(res.getFirst());
-    }
-
     @GetMapping("/login")
     public ResponseEntity<UserModel> validarCredenciais(@RequestBody User Ruser) {
 
@@ -117,7 +87,7 @@ public class UserController {
         user.getEmail().isBlank() || !user.getEmail().contains("@") ||
                 !user.getEmail().contains(".") || user.getSenha().length() < 6){
 
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(409).build();
 
         }
 
