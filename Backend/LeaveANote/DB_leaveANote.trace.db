@@ -1,0 +1,6 @@
+2026-09-07 17:14:57.678628-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table if not exists [*]'user'( id int primary key auto_increment, name varchar(150) not null, email varchar(150) not null, senha varchar(50) not null )"; expected "identifier"; SQL statement:
+create table if not exists 'user'( id int primary key auto_increment, name varchar(150) not null, email varchar(150) not null, senha varchar(50) not null ) [42001-240]
+2026-09-07 17:16:45.827611-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table if not exists [*]'user'( id int primary key auto_increment, name varchar(150) not null, email varchar(150) not null, senha varchar(50) not null )"; expected "identifier"; SQL statement:
+create table if not exists 'user'( id int primary key auto_increment, name varchar(150) not null, email varchar(150) not null, senha varchar(50) not null ) [42001-240]
