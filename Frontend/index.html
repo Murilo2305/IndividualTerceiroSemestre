@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login/Register Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5e6d3; 
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .header {
+      background-color: black;
+      color: white;
+      min-height: 33vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      border: 3px solid white;
+      border-radius: 20px;
+      box-sizing: border-box;
+    }
+    .container {
+      padding: 20px;
+      flex: 1;
+    }
+    .hidden {
+      display: none;
+    }
+    .form-box {
+      border: 3px solid white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 15px;
+      background: black;
+      color: white;
+      width: 280px;
+      text-align: center;
+    }
+    .form-box input {
+      width: 90%;
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 3px solid white;
+      background: black;
+      color: white;
+      outline: none;
+      text-align: center;
+    }
+    .notes-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 15px;
+      margin-top: 20px;
+      width: 100%;
+    }
+    .note-block {
+      border: 3px solid #5c4033; /* dark brown outline */
+      border-radius: 12px;
+      padding: 10px;
+      background: #d2b48c; /* darker brown tone for notes */
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 120px;
+      width: 220px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      background: #f5e6d3; /* light brown background inside */
+      color: black;
+      border: 3px solid #5c4033;
+      border-radius: 8px;
+      outline: none;
+      resize: none;
+      text-align: center;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    textarea::placeholder {
+      color: #333;
+      text-align: center;
+    }
+    button {
+      margin: 5px 0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 3px solid #5c4033;
+      background: #d2b48c;
+      color: black;
+      cursor: pointer;
+    }
+    .message-area {
+      background: #d2b48c; /* darker brown tone */
+      color: black;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      border-top: 3px solid #5c4033;
+    }
+    .message {
+      animation: fadeOut 3s forwards;
+    }
+    @keyframes fadeOut {
+      0% {opacity: 1;}
+      80% {opacity: 1;}
+      100% {opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button id="toggleMode">Switch to Register</button>
+
+    <!-- Register form -->
+    <form id="registerForm" class="form-box hidden">
+      <h2>Register</h2>
+      <input type="text" id="regName" placeholder="Name" required><br>
+      <input type="email" id="regEmail" placeholder="Email" required><br>
+      <input type="password" id="regPassword" placeholder="Password" required><br>
+      <input type="password" id="regConfirm" placeholder="Confirm Password" required><br>
+      <button type="submit">Register</button>
+    </form>
+
+    <!-- Login form -->
+    <form id="loginForm" class="form-box">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required><br>
+      <input type="password" id="loginPassword" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+
+    <!-- Insert note button -->
+    <button id="insertNote" class="hidden">Insert Note</button>
+  </div>
+
+  <div class="container">
+
+    <!-- Notes grid in light brown area -->
+    <div id="notesArea" class="notes-grid">
+      <!-- Default note block -->
+      <div class="note-block">
+        <button class="deleteNote">Delete</button>
+        <textarea placeholder="Write your code here..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message area outside black box -->
+  <div id="messageArea" class="message-area"></div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleMode');
+    const registerForm = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
+    const insertNoteBtn = document.getElementById('insertNote');
+    const notesArea = document.getElementById('notesArea');
+    const messageArea = document.getElementById('messageArea');
+
+    let registeredUser = null;
+
+    function showMessage(text) {
+      messageArea.textContent = text;
+      messageArea.classList.add('message');
+      setTimeout(() => {
+        messageArea.textContent = '';
+        messageArea.classList.remove('message');
+      }, 3000);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (registerForm.classList.contains('hidden')) {
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        toggleBtn.textContent = 'Switch to Login';
+      } else {
+        registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        toggleBtn.textContent = 'Switch to Register';
+      }
+    });
+
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const pass = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+
+      if (!name) {
+        showMessage('Name cannot be empty.');
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        showMessage('Invalid email format.');
+        return;
+      }
+      if (!pass || pass.length < 6) {
+        showMessage('Password must be at least 6 characters.');
+        return;
+      }
+      if (pass !== confirm) {
+        showMessage('Passwords do not match.');
+        return;
+      }
+
+      registeredUser = { name, email, pass };
+      showMessage('Registration successful! You can now login.');
+      registerForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+      toggleBtn.textContent = 'Switch to Register';
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+
+      if (!email.includes('@') || !email.includes('.')) {
+        showMessage('Invalid email format.');
+        return;
+      }
+      if (!pass) {
+        showMessage('Password cannot be empty.');
+        return;
+      }
+
+      if (registeredUser && email === registeredUser.email && pass === registeredUser.pass) {
+        showMessage('Login successful!');
+        insertNoteBtn.classList.remove('hidden');
+      } else {
+        showMessage('Invalid credentials!');
+      }
+    });
+
+    insertNoteBtn.addEventListener('click', () => {
+      const noteBlock = document.createElement('div');
+      noteBlock.className = 'note-block';
+      noteBlock.innerHTML = `
+        <button class="deleteNote">Delete</button>
+        <textarea placeholder="Write your code here..."></textarea>
+      `;
+      notesArea.appendChild(noteBlock);
+
+      noteBlock.querySelector('.deleteNote').addEventListener('click', () => {
+        notesArea.removeChild(noteBlock);
+      });
+    });
+
+    // Default note delete functionality
+    document.querySelectorAll('.deleteNote').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const block = e.target.closest('.note-block');
+        notesArea.removeChild(block);
+      });
+    });
+
+    
+
+  </script>
+</body>
+</html>
