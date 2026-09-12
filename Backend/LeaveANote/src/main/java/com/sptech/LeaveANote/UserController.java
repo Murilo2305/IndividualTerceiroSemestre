@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok().body(res);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<UserModel> validarCredenciais(@RequestBody User Ruser) {
 
         String sql = """
@@ -85,13 +85,8 @@ public class UserController {
 
         if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null ||
         user.getEmail().isBlank() || !user.getEmail().contains("@") ||
-                !user.getEmail().contains(".") || user.getSenha().length() < 6){
-
-            return ResponseEntity.status(409).build();
-
-        }
-
-        if (checkIfExistsEmail(user.getEmail())){
+                !user.getEmail().contains(".") || user.getSenha() == null ||user.getSenha().length() < 6
+                || checkIfExistsEmail(user.getEmail())){
 
             return ResponseEntity.status(409).build();
 

@@ -23,7 +23,7 @@ public class NoteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Note>> listar() {
+    public ResponseEntity<List<Note>> list() {
 
         String sql = """
                 SELECT id, msg, fkUser
@@ -42,32 +42,8 @@ public class NoteController {
         return ResponseEntity.ok(notes);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Note> buscarPorId(
-            @PathVariable Integer id) {
-
-        String sql = """
-                SELECT id, msg, fkUser
-                FROM note
-                WHERE id = ?
-                """;
-
-        List<Note> notes = jdbcTemplate.query(
-                sql,
-                new BeanPropertyRowMapper<>(Note.class),
-                id
-        );
-
-        if (notes.isEmpty()) {
-            return ResponseEntity.status(404).build();
-        }
-
-        return ResponseEntity.ok(notes.getFirst());
-    }
-
     @GetMapping("/users/{fkUser}")
-    public ResponseEntity<List<Note>> buscarPorUsuario(
-            @PathVariable Integer fkUser) {
+    public ResponseEntity<List<Note>> searchByUser(@PathVariable Integer fkUser) {
 
         String sql = """
             SELECT id, msg, fkUser
@@ -146,6 +122,8 @@ public class NoteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(
             @PathVariable Integer id) {
+
+        System.out.println("ssssssssssssssssss");
 
         String sql = """
                 DELETE FROM note

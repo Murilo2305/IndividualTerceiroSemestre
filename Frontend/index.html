@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Login/Register Page</title>
+  <link rel="icon" href="./LEaveANote_Logo.png">
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f5e6d3; 
+      background-color: #ffffff;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
+
     .header {
       background-color: black;
       color: white;
@@ -25,13 +28,44 @@
       border-radius: 20px;
       box-sizing: border-box;
     }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 100px;
+      height: auto;
+    }
+
+    .logo p{
+
+      padding-top: 5px;
+      font-size: 20px;
+
+    }
+
+    .forms{
+
+      justify-self: center;
+      align-items: center;
+
+    }
+
     .container {
       padding: 20px;
       flex: 1;
     }
+
     .hidden {
       display: none;
     }
+
     .form-box {
       border: 3px solid white;
       border-radius: 12px;
@@ -42,6 +76,7 @@
       width: 280px;
       text-align: center;
     }
+
     .form-box input {
       width: 90%;
       padding: 8px;
@@ -53,19 +88,21 @@
       outline: none;
       text-align: center;
     }
+
     .notes-grid {
       display: flex;
       flex-wrap: wrap;
-      justify-content: flex-start;
+      justify-content: center;
       gap: 15px;
       margin-top: 20px;
       width: 100%;
     }
+
     .note-block {
-      border: 3px solid #5c4033; /* dark brown outline */
+      border: 3px solid #000000;
       border-radius: 12px;
       padding: 10px;
-      background: #d2b48c; /* darker brown tone for notes */
+      background: #000000;
       color: black;
       display: flex;
       flex-direction: column;
@@ -74,12 +111,13 @@
       min-height: 120px;
       width: 220px;
     }
+
     textarea {
       width: 100%;
       height: 100px;
-      background: #f5e6d3; /* light brown background inside */
-      color: black;
-      border: 3px solid #5c4033;
+      background: #5e5e5e;
+      color: rgb(255, 255, 255);
+      border: 3px solid #ffffff;
       border-radius: 8px;
       outline: none;
       resize: none;
@@ -87,111 +125,133 @@
       font-family: monospace;
       font-size: 14px;
     }
+
     textarea::placeholder {
       color: #333;
       text-align: center;
     }
+
     button {
       margin: 5px 0;
       padding: 6px 12px;
       border-radius: 6px;
-      border: 3px solid #5c4033;
-      background: #d2b48c;
-      color: black;
+      border: 3px solid #ffffff;
+      background: #000000;
+      color: white;
       cursor: pointer;
     }
+
+    .note-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
     .message-area {
-      background: #d2b48c; /* darker brown tone */
+      background: #d2b48c;
+      /* darker brown tone */
       color: black;
       padding: 15px;
       text-align: center;
       font-weight: bold;
       border-top: 3px solid #5c4033;
     }
+
     .message {
       animation: fadeOut 3s forwards;
     }
-    @keyframes fadeOut {
-      0% {opacity: 1;}
-      80% {opacity: 1;}
-      100% {opacity: 0;}
-    }
   </style>
 </head>
+
 <body>
+
   <div class="header">
-    <button id="toggleMode">Switch to Register</button>
 
-    <!-- Register form -->
-    <form id="registerForm" class="form-box hidden">
-      <h2>Register</h2>
-      <input type="text" id="regName" placeholder="Name" required><br>
-      <input type="email" id="regEmail" placeholder="Email" required><br>
-      <input type="password" id="regPassword" placeholder="Password" required><br>
-      <input type="password" id="regConfirm" placeholder="Confirm Password" required><br>
-      <button type="submit">Register</button>
-    </form>
+    <div class="logo">
 
-    <!-- Login form -->
-    <form id="loginForm" class="form-box">
-      <h2>Login</h2>
-      <input type="email" id="loginEmail" placeholder="Email" required><br>
-      <input type="password" id="loginPassword" placeholder="Password" required><br>
-      <button type="submit">Login</button>
-    </form>
+      <img src="/IndividualTerceiroSemestre/Frontend/LEaveANote_Logo.png" alt="">
+      <p>LeaveANote</p>
 
-    <!-- Insert note button -->
-    <button id="insertNote" class="hidden">Insert Note</button>
+    </div>
+
+    <div class="forms">
+
+      <button id="toggleMode">Switch to Register</button>
+
+      <form id="registerForm" class="form-box hidden">
+        <h2>Register</h2>
+        <input type="text" id="regName" placeholder="Name" required><br>
+        <input type="email" id="regEmail" placeholder="Email" required><br>
+        <input type="password" id="regPassword" placeholder="Password" required><br>
+        <input type="password" id="regConfirm" placeholder="Confirm Password" required><br>
+        <button type="submit">Register</button>
+      </form>
+
+      <form id="loginForm" class="form-box">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required><br>
+        <input type="password" id="loginPassword" placeholder="Password" required><br>
+        <button type="submit">Login</button>
+      </form>
+
+      <button id="insertNote" class="hidden">Insert Note</button>
+
+    </div>
+
   </div>
 
   <div class="container">
 
-    <!-- Notes grid in light brown area -->
-    <div id="notesArea" class="notes-grid">
-      <!-- Default note block -->
-      <div class="note-block">
-        <button class="deleteNote">Delete</button>
-        <textarea placeholder="Write your code here..."></textarea>
-      </div>
+    <div id="notesContainer" class="notes-grid">
+
     </div>
+
   </div>
 
-  <!-- Message area outside black box -->
-  <div id="messageArea" class="message-area"></div>
-
   <script>
+
     const toggleBtn = document.getElementById('toggleMode');
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
     const insertNoteBtn = document.getElementById('insertNote');
     const notesArea = document.getElementById('notesArea');
     const messageArea = document.getElementById('messageArea');
+    const notesContainer = document.getElementById('notesContainer');
 
     let registeredUser = null;
 
+    // Allert generator
     function showMessage(text) {
-      messageArea.textContent = text;
-      messageArea.classList.add('message');
-      setTimeout(() => {
-        messageArea.textContent = '';
-        messageArea.classList.remove('message');
-      }, 3000);
+
+      alert(text);
+
     }
 
+    // Toggle button 
     toggleBtn.addEventListener('click', () => {
+
+      notesContainer.innerHTML = '';
+      insertNoteBtn.classList.add('hidden');
+      sessionStorage.clear();
+
       if (registerForm.classList.contains('hidden')) {
+
         registerForm.classList.remove('hidden');
         loginForm.classList.add('hidden');
         toggleBtn.textContent = 'Switch to Login';
+
       } else {
+
         registerForm.classList.add('hidden');
         loginForm.classList.remove('hidden');
         toggleBtn.textContent = 'Switch to Register';
+
       }
     });
 
-    registerForm.addEventListener('submit', (e) => {
+    // Registration
+    registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();
       const pass = document.getElementById('regPassword').value;
@@ -201,28 +261,58 @@
         showMessage('Name cannot be empty.');
         return;
       }
+
       if (!email.includes('@') || !email.includes('.')) {
         showMessage('Invalid email format.');
         return;
       }
+
       if (!pass || pass.length < 6) {
         showMessage('Password must be at least 6 characters.');
         return;
       }
+
       if (pass !== confirm) {
         showMessage('Passwords do not match.');
         return;
       }
 
-      registeredUser = { name, email, pass };
-      showMessage('Registration successful! You can now login.');
-      registerForm.classList.add('hidden');
-      loginForm.classList.remove('hidden');
-      toggleBtn.textContent = 'Switch to Register';
+      try {
+
+        console.log(name, email, pass, confirm)
+
+        const response = await fetch('http://localhost:8080/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            senha: pass
+          })
+        });
+
+        if (response.ok) {
+          showMessage('Registration successful! You can now login.');
+
+          registerForm.classList.add('hidden');
+          loginForm.classList.remove('hidden');
+          toggleBtn.textContent = 'Switch to Register';
+
+        } else {
+          showMessage('An error occurred while registering the user.');
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
     });
 
-    loginForm.addEventListener('submit', (e) => {
+    // Login
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const email = document.getElementById('loginEmail').value.trim();
       const pass = document.getElementById('loginPassword').value;
 
@@ -230,43 +320,257 @@
         showMessage('Invalid email format.');
         return;
       }
+
       if (!pass) {
         showMessage('Password cannot be empty.');
         return;
       }
 
-      if (registeredUser && email === registeredUser.email && pass === registeredUser.pass) {
-        showMessage('Login successful!');
-        insertNoteBtn.classList.remove('hidden');
-      } else {
-        showMessage('Invalid credentials!');
+      try {
+        const response = await fetch('http://localhost:8080/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            senha: pass
+          })
+        });
+
+        if (response.ok) {
+          const user = await response.json();
+
+          sessionStorage.setItem('userId', user.id);
+          sessionStorage.setItem('userName', user.name);
+          sessionStorage.setItem('userEmail', user.email);
+
+          notesContainer.innerHTML = '';
+          showMessage('Login successful!');
+          loadNotes();
+          insertNoteBtn.classList.remove('hidden');
+
+        } else {
+          showMessage('Invalid credentials!');
+        }
+
+      } catch (error) {
+        console.error('Login error:', error);
       }
     });
 
-    insertNoteBtn.addEventListener('click', () => {
-      const noteBlock = document.createElement('div');
-      noteBlock.className = 'note-block';
-      noteBlock.innerHTML = `
-        <button class="deleteNote">Delete</button>
-        <textarea placeholder="Write your code here..."></textarea>
-      `;
-      notesArea.appendChild(noteBlock);
+    // Note related functions
 
-      noteBlock.querySelector('.deleteNote').addEventListener('click', () => {
-        notesArea.removeChild(noteBlock);
-      });
+    // Funcition that deletes the notes
+    notesContainer.addEventListener('click', async (e) => {
+
+      if (!e.target.classList.contains('deleteNote')) {
+        return;
+      }
+
+      console.log('DELETE BUTTON CLICKED');
+
+      const block = e.target.closest('.note-block');
+      const noteId = block.dataset.noteId;
+
+      console.log('Deleting note:', noteId);
+
+      try {
+        const response = await fetch(`http://localhost:8080/notes/${noteId}`, {
+          method: 'DELETE'
+        });
+
+        console.log('Delete response:', response.status);
+
+        if (response.status === 204) {
+
+          block.remove();
+
+          showMessage('Note deleted successfully.');
+
+        } else if (response.status === 404) {
+
+          showMessage('Note was not found.');
+
+        } else {
+
+          showMessage('Could not delete the note.');
+
+        }
+
+      } catch (error) {
+
+        console.error('Error deleting note:', error);
+      }
     });
 
-    // Default note delete functionality
-    document.querySelectorAll('.deleteNote').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const block = e.target.closest('.note-block');
-        notesArea.removeChild(block);
-      });
+    // Function that loads the notes the user already has
+    async function loadNotes() {
+      const fkUser = sessionStorage.getItem('userId');
+
+      if (!fkUser) {
+        showMessage('User not logged in.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8080/notes/users/${fkUser}`);
+
+        if (!response.ok) {
+          showMessage('Could not load your notes.');
+          return;
+        }
+
+        const notes = await response.json();
+
+        const notesContainer = document.getElementById('notesContainer');
+
+        notesContainer.innerHTML = '';
+
+        notes.forEach(note => {
+          const noteBlock = document.createElement('div');
+
+          noteBlock.classList.add('note-block');
+          noteBlock.dataset.noteId = note.id;
+
+          noteBlock.innerHTML = `
+              <div class="note-buttons">
+              <button class="updateNote" style="display: none;">Update</button>
+              <button class="deleteNote">Delete</button>
+              </div>
+              <textarea placeholder="Write your code here...">${note.msg}</textarea>
+            `;
+
+          notesContainer.appendChild(noteBlock);
+        });
+
+      } catch (error) {
+        console.error('Error loading notes:', error);
+      }
+    }
+
+    // Function that makes the update button appear when the user writes
+    notesContainer.addEventListener('input', (e) => {
+
+      if (!e.target.matches('.note-block textarea')) {
+        return;
+      }
+
+      const block = e.target.closest('.note-block');
+      const updateButton = block.querySelector('.updateNote');
+
+      updateButton.style.display = 'block';
     });
 
-    
+    // Function that updates the notes
+    notesContainer.addEventListener('click', async (e) => {
+
+      if (!e.target.classList.contains('updateNote')) {
+        return;
+      }
+
+      const button = e.target;
+      const block = button.closest('.note-block');
+      const noteId = block.dataset.noteId;
+      const textarea = block.querySelector('textarea');
+
+      const msg = textarea.value;
+
+      try {
+
+        const response = await fetch(`http://localhost:8080/notes/${noteId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fkUser: sessionStorage.getItem("userId"),
+            msg: msg
+          })
+        });
+
+        if (response.ok) {
+
+          button.style.display = 'none';
+
+          showMessage('Note updated successfully.');
+
+        } else if (response.status === 404) {
+
+          showMessage('Note was not found.');
+
+        } else {
+
+          showMessage('Could not update the note.');
+
+        }
+
+      } catch (error) {
+
+        console.error('Error updating note:', error);
+
+      }
+    });
+
+    // Funciton that creates a note when the button gets pressed
+    insertNoteBtn.addEventListener('click', async () => {
+
+      const fkUser = sessionStorage.getItem('userId');
+
+      if (!fkUser) {
+        showMessage('User not logged in.');
+        return;
+      }
+
+      try {
+
+        const response = await fetch('http://localhost:8080/notes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fkUser: fkUser,
+            msg: ''
+          })
+        });
+
+        if (!response.ok) {
+          showMessage('Could not create note.');
+          return;
+        }
+
+        const note = await response.json();
+
+        const noteBlock = document.createElement('div');
+
+        noteBlock.classList.add('note-block');
+        noteBlock.dataset.noteId = note.id;
+
+        noteBlock.innerHTML = `
+            <div class="note-buttons">
+                <button class="updateNote" style="display: none;">Update</button>
+                <button class="deleteNote">Delete</button>
+            </div>
+
+            <textarea placeholder="Write your code here...">${note.msg}</textarea>
+        `;
+
+        notesContainer.appendChild(noteBlock);
+
+        noteBlock.querySelector('textarea').focus();
+
+        showMessage('Note created successfully.');
+
+      } catch (error) {
+
+        console.error('Error creating note:', error);
+
+      }
+    });
 
   </script>
+
 </body>
+
 </html>
