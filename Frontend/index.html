@@ -43,14 +43,14 @@
       height: auto;
     }
 
-    .logo p{
+    .logo p {
 
       padding-top: 5px;
       font-size: 20px;
 
     }
 
-    .forms{
+    .forms {
 
       justify-self: center;
       align-items: center;
@@ -77,7 +77,10 @@
       text-align: center;
     }
 
-    .form-box input {
+    .form-box input[type="text"],
+    .form-box input[type="email"],
+    .form-box input[type="password"],
+    .form-box input[type="date"] {
       width: 90%;
       padding: 8px;
       margin: 6px 0;
@@ -159,6 +162,59 @@
     .message {
       animation: fadeOut 3s forwards;
     }
+
+    .genre-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    .genre-container label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .genre-container input[type="radio"] {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      accent-color: white;
+    }
+
+    .email-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 10px 0;
+    }
+
+    .email-container input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      accent-color: white;
+    }
+
+    .email-container label {
+      margin: 0;
+    }
+
+    .form-box select {
+      width: 90%;
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 3px solid white;
+      background: black;
+      color: white;
+      outline: none;
+      text-align: center;
+    }
+    
   </style>
 </head>
 
@@ -178,12 +234,64 @@
       <button id="toggleMode">Switch to Register</button>
 
       <form id="registerForm" class="form-box hidden">
+
         <h2>Register</h2>
+
         <input type="text" id="regName" placeholder="Name" required><br>
+
         <input type="email" id="regEmail" placeholder="Email" required><br>
+
         <input type="password" id="regPassword" placeholder="Password" required><br>
+
         <input type="password" id="regConfirm" placeholder="Confirm Password" required><br>
+
+
+        <!-- Birthday -->
+        <label for="regBirthday">Birthday:</label>
+        <input type="date" id="regBirthday"><br>
+
+
+        <!-- Genre -->
+        <div class="genre-container">
+
+          <span>Genre:</span>
+
+          <label>
+            <input type="radio" name="genre" value="Male">
+            Male
+          </label>
+
+          <label>
+            <input type="radio" name="genre" value="Female">
+            Female
+          </label>
+
+        </div>
+        </label>
+
+        <br>
+
+        <label for="regFunction">Function:</label>
+
+        <select id="regFunction">
+          <option value="">Select a function</option>
+          <option value="teacher">Teacher</option>
+          <option value="student">Student</option>
+        </select>
+
+        <br>
+
+
+        <div class="email-container">
+          <label for="receiveEmail">Receive emails</label>
+          <input type="checkbox" id="receiveEmail">
+        </div>
+
+        <br>
+
+
         <button type="submit">Register</button>
+
       </form>
 
       <form id="loginForm" class="form-box">
@@ -250,63 +358,122 @@
 
     // Registration
     registerForm.addEventListener('submit', async (e) => {
+
       e.preventDefault();
 
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();
-      const pass = document.getElementById('regPassword').value;
+      const password = document.getElementById('regPassword').value;
       const confirm = document.getElementById('regConfirm').value;
 
+      const birth = document.getElementById('regBirthday').value;
+      const genre = document.querySelector('input[name="genre"]:checked');
+      const functionValue = document.getElementById('regFunction').value;
+      const recieveEmails = document.getElementById('receiveEmail').checked;
+
+
+      // Name
       if (!name) {
         showMessage('Name cannot be empty.');
         return;
       }
 
+
+      // Email
       if (!email.includes('@') || !email.includes('.')) {
         showMessage('Invalid email format.');
         return;
       }
 
-      if (!pass || pass.length < 6) {
+
+      // Password
+      if (!password || password.length < 6) {
         showMessage('Password must be at least 6 characters.');
         return;
       }
 
-      if (pass !== confirm) {
+
+      // Confirm password
+      if (password !== confirm) {
         showMessage('Passwords do not match.');
         return;
       }
 
-      try {
 
-        console.log(name, email, pass, confirm)
+      // Birthday
+      if (!birth) {
+        showMessage('Birthday must be selected.');
+        return;
+      }
+
+      const birthDate = new Date(birth);
+      const today = new Date();
+
+      today.setHours(0, 0, 0, 0);
+
+      if (birthDate >= today) {
+        showMessage('Birthday must be before the current date.');
+        return;
+      }
+
+
+      // Genre
+      if (!genre) {
+        showMessage('Please select a genre.');
+        return;
+      }
+
+
+      // Function
+      if (!functionValue) {
+        showMessage('Please select a function.');
+        return;
+      }
+
+
+      try {
 
         const response = await fetch('http://localhost:8080/users', {
           method: 'POST',
+
           headers: {
             'Content-Type': 'application/json'
           },
+
           body: JSON.stringify({
             name: name,
             email: email,
-            senha: pass
+            password: password,
+            function: functionValue,
+            genre: genre.value,
+            birth: birth,
+            recieveEmails: recieveEmails
           })
         });
 
+
         if (response.ok) {
+
           showMessage('Registration successful! You can now login.');
 
           registerForm.classList.add('hidden');
           loginForm.classList.remove('hidden');
+
           toggleBtn.textContent = 'Switch to Register';
 
         } else {
+
           showMessage('An error occurred while registering the user.');
+
         }
 
       } catch (error) {
+
         console.error(error);
+        showMessage('Could not connect to the server.');
+
       }
+
     });
 
     // Login

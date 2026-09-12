@@ -2,7 +2,11 @@ create table if not exists `user`(
     id int primary key auto_increment,
     name varchar(150) not null,
     email varchar(150) not null,
-    senha varchar(50) not null
+    senha varchar(50) not null,
+    birth date,
+    `function` varchar(50),
+    genre varchar(50),
+    recieveEmails boolean
 
 );
 
